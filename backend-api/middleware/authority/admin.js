@@ -5,12 +5,12 @@ const adminAuthority = (req,res,next)=>{
         const admin = req.user.admin
         if (!admin)
         {
-            throw new Error({message:'You are not authorized to access this page !!'})
+            throw new Error('You are not authorized to access this page !!')
         }
 
         next()
        }catch(e){
-        res.status(401).send(e)
+        res.status(401).send({message:e.message})
 
        }
        
