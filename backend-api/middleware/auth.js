@@ -6,11 +6,10 @@ const User = require('../models/user')
 const auth = async (req, res, next)=>{
     try{
         
-        token= req.header('Authorization')
-        
+        const token= req.header('Authorization')
         
         const decode =  jwt.verify(token,'thisisasecret')
-        const user = await User.findOne({_id:decode._id}).populate('userRole')
+        const user = await User.findOne({_id:decode._id}).populate('role')
         if (!user){
             throw new Error()
         }
