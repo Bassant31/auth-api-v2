@@ -1,7 +1,7 @@
 const express = require('express')
 const {getRoles,createRole,updateRole,deleteRole} = require('../controllers/role')
-const adminAuthority = require('../middleweare/authority/admin')
-const auth = require('../middleweare/auth')
+const adminAuthority = require('../middleware/authority/admin')
+const auth = require('../middleware/auth')
 const router = express.Router()
 
 
