@@ -44,7 +44,7 @@ function App() {
       <Route path = '/add-new-role'>
         <AddNewRolePage/>
       </Route>
-       <Route path = '/:id/:name/:description'>
+       <Route path = '/update/:id/:name/:description'>
          <UpdateRolePage/>
       </Route>
     </Switch>
