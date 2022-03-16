@@ -8,7 +8,7 @@ const createNewUser = async(req,res) =>{
         await user.save()
         res.status(201).send({user})
     }catch(e){
-        res.status(400).send({error:'Please try another email'})
+        res.status(400).send({message:'Please try another email'})
     }
 
 }
@@ -23,7 +23,7 @@ const userLogin = async(req,res)=>{
 
 
     }catch(e){
-        res.status(400).send({error:e.message})
+        res.status(400).send({message:e.message})
     }
 }
 
