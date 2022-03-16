@@ -7,7 +7,7 @@ const UsersPage = () => {
   const [users,setUsers]= useState([])
   const [roles,setRoles]= useState([])
 
-  const { sendRequest,error,isLoading } = useHttp();
+  const { sendRequest,error } = useHttp();
 
   useEffect(() => {
     const getRoles= async()=>{

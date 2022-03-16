@@ -9,7 +9,7 @@ const UserItem = (props) => {
   let newRole = props.role;
 
   
-const Roles=[]
+const Roles=[{name: 'no role'}]
  for(const role in props.listOfRoles){
    Roles.push({name : props.listOfRoles[role].name})
  }

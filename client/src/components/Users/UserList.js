@@ -10,7 +10,7 @@ const UserList = (props) => {
             key ={user._id}
             id={user._id}
             name={user.name}
-            role={user.role ? user.role.name : 'No role'}
+            role={user.role ? user.role.name : 'no role'}
             listOfRoles={props.roles}
           />
         ))}

@@ -22,16 +22,7 @@ const createRole = async(req,res)=>{
 
     }
     catch(e){
-        //console.log(e)
-       /* let message =""
-       /* if(e.errors.name !== null){
-            message = e.errors.name.message
-        }
-        else{
-            message = "Role Already exist!! "
-
-        }*/
-        
+      
         res.status(400).send({message:'Role Already Exist !!'})
 
     }
@@ -40,8 +31,8 @@ const createRole = async(req,res)=>{
 const updateRole = async (req,res)=>{
      try{
          
-        await Role.findByIdAndUpdate(req.body.id,{name:req.body.name,description:req.body.description})
-        res.status(201).send()
+        const role=await Role.findByIdAndUpdate(req.body.id,{name:req.body.name,description:req.body.description},{new:true})
+        res.status(201).send(role)
 
     }
     catch(e){
@@ -54,6 +45,7 @@ const updateRole = async (req,res)=>{
 const deleteRole = async(req,res)=>{
       try{
           // check user here
+          
         const count = await User.find({role:req.params.id}).count()
         if(count>0){
             throw new Error ('cannot delete an asigned role!!')
@@ -64,8 +56,6 @@ const deleteRole = async(req,res)=>{
             res.status(200).send(role)
 
         }
-
-        
 
     }
     catch(e){

@@ -62,16 +62,14 @@ const AuthForm = () => {
       },
     }).then(data =>{
       if(data){
-      authCtx.login(data.token,data.info.admin)
+        const expirationTime=new Date( new Date().getTime() + data.expiresIn)
+      authCtx.login(data.token,expirationTime.toISOString(),data.info.admin)
       history.replace('/home')
       }
       else{
         setisError(true)
       }
-    }).catch(e=>{
-
     })
-      
       
 
     } else {

@@ -9,7 +9,6 @@ const MainNavigation = () => {
   const authCtx = useContext(AuthContext)
   const isLoggedIn = authCtx.isLoggedIn
   const admin = authCtx.admin
-  //console.log("Main navigation",admin)
 
   function logoutHandler(){
     authCtx.logout()
