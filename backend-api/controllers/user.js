@@ -18,7 +18,6 @@ const userLogin = async(req,res)=>{
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
         const info=await user.populate('role')
-       // res.send({user,token,info})
         res.send({token,info})
 
 
