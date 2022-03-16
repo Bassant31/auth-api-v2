@@ -11,6 +11,7 @@ app.use(express.json())
 app.use(userRouter)
 app.use(roleRouter)
 app.use(planRouter)
+app.use(roleRouter)
 
 
 module.exports = app

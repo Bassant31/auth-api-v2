@@ -4,7 +4,7 @@ const getDevPlan =(req,res)=>{
 
         res.send({plan:data})
     }catch(e){
-        res.status(500).send({error:e.message})
+        res.status(500).send({message:e.message})
     }
 }
 
@@ -14,7 +14,7 @@ const getTesterPlan = (req,res)=>{
 
         res.send({plan:data})
     }catch(e){
-        res.status(500).send({error:e.message})
+        res.status(500).send({message:e.message})
     }
 }
 

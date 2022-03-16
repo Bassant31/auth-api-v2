@@ -8,7 +8,7 @@ const createNewUser = async(req,res) =>{
         await user.save()
         res.status(201).send({user})
     }catch(e){
-        res.status(400).send({error:'Please try another email'})
+        res.status(400).send({message:'Please try another email'})
     }
 
 }
@@ -18,12 +18,13 @@ const userLogin = async(req,res)=>{
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
         const info=await user.populate('role')
-       // res.send({user,token,info})
-        res.send({token,info})
+        //token expires in an hour
+        const expiresIn=(3600*1000)
+        res.send({token,info,expiresIn})
 
 
     }catch(e){
-        res.status(400).send({error:e.message})
+        res.status(400).send({message:e.message})
     }
 }
 
@@ -44,8 +45,14 @@ const getUserInfo = async(req,res) =>{
 
 const updateUserRole = async(req,res)=>{
     try{
+        let user
         const newRole= await Role.findOne({name:req.body.role})
-        const user= await User.findByIdAndUpdate(req.body.id,{role:newRole._id},{new:true})
+        if(newRole){
+         user= await User.findByIdAndUpdate(req.body.id,{role:newRole._id},{new:true})
+        }else{
+       user =await User.findByIdAndUpdate(req.body.id,{role:null},{new:true})
+
+        }
         res.send(user)
         
     }catch(e){

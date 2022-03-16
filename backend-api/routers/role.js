@@ -7,6 +7,7 @@ const router = express.Router()
 
 
 
+
 router.get('/roles',auth,adminAuthority,(req,res)=>{
     getRoles(req,res)
     
@@ -26,8 +27,6 @@ router.patch('/role',auth,adminAuthority,(req,res)=>{
    
     
 })
-
-
 
 
 module.exports =router

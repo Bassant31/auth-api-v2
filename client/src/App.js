@@ -1,24 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { Switch, Route } from 'react-router-dom';
+
+import AuthPage from './pages/AuthPage';
+import HomePage from './pages/HomePage'
+import UsersPage from './pages/UsersPage';
+import RolesListPage from './pages/RolesListPage';
+import AddNewRolePage from './pages/AddNewRolePage';
+import UpdateRolePage from './pages/UpdateRolePage';
+import Layout from './components/Layout/Layout'
+import DevelopementPage from './pages/DevelopmentPage';
+import TestingPage from './pages/Testing';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Switch>
+      <Route path='/' exact>
+        <AuthPage/>
+      </Route>
+      <Route path='/auth'> 
+        <AuthPage/>
+      </Route>
+      <Route path='/home'>
+        <HomePage/>
+      </Route>
+      <Route path='/users'>
+        <UsersPage/>
+      </Route>
+      <Route path='/roles'>
+        <RolesListPage/>
+      </Route>
+      <Route path='/development'>
+        <DevelopementPage/>
+      </Route>
+      <Route path='/testing'>
+        <TestingPage/>
+      </Route>
+      <Route path = '/roles-list'>
+        <RolesListPage/>
+      </Route>
+      <Route path = '/add-new-role'>
+        <AddNewRolePage/>
+      </Route>
+       <Route path = '/:id/:name/:description'>
+         <UpdateRolePage/>
+      </Route>
+    </Switch>
+    
+    </Layout>
   );
 }
 
