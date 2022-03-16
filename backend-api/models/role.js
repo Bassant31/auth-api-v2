@@ -12,7 +12,7 @@ const roleSchema = new mongoose.Schema({
         required:true,
         validate(value){
             if(value.toLowerCase().includes('admin')){
-                throw new Error('Cannot assign admin role !!!')
+                throw new Error('Cannot create admin role !!!')
             }
         }
 
@@ -24,5 +24,6 @@ const roleSchema = new mongoose.Schema({
     }
 })
 
+   
 const Role= mongoose.model('Role', roleSchema)
 module.exports = Role

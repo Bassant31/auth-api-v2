@@ -9,6 +9,7 @@ const app= express()
 app.use(express.json())
 
 app.use(userRouter)
+app.use(roleRouter)
 app.use(planRouter)
 app.use(roleRouter)
 

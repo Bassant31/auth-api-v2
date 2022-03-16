@@ -4,6 +4,10 @@ const adminAuthority = require('../middleware/authority/admin')
 const auth = require('../middleware/auth')
 const router = express.Router()
 
+
+
+
+
 router.get('/roles',auth,adminAuthority,(req,res)=>{
     getRoles(req,res)
     
