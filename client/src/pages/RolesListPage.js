@@ -6,7 +6,10 @@ import RolesList from "../components/Roles/RolesList";
 const RolesListPage = () => {
     const [roles,setRoles]= useState([])
     const {sendRequest, error}= useHttp()
+
     const authCtx= useContext(AuthContext)
+    const isLoggedIn =  authCtx.isLoggedIn
+
     const [itemDeleted,setItemDeleted] = useState(false)
     let onDeleteItemHandler = ()=>{
         setItemDeleted(!itemDeleted)
@@ -33,7 +36,9 @@ const RolesListPage = () => {
   return(
       <div>
           {!error &&<RolesList roles={roles} deleteItemHandler={onDeleteItemHandler}></RolesList>}
-          {error && <h1>{error}</h1>}
+          {error && isLoggedIn && <h1>{error}</h1>}
+          {!isLoggedIn && <h1>You are not authorized to access this page !!</h1>}
+
       </div>
       
   )

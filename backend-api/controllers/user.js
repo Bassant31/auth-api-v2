@@ -18,9 +18,7 @@ const userLogin = async(req,res)=>{
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
         const info=await user.populate('role')
-        //token expires in an hour
-        const expiresIn=(3600*1000)
-        res.send({token,info,expiresIn})
+        res.send({token,info})
 
 
     }catch(e){

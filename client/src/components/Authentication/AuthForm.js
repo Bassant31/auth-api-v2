@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import AuthContext from '../../store/auth-context';
 
 import classes from './AuthForm.module.css';
+import jwt_decode from "jwt-decode";
  
 
 const AuthForm = () => {
@@ -20,7 +21,7 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
  const [isError, setisError]= useState(false)
   
-
+  
   const clearInput = ()=>{
     setisError(false)
     if(!isLogin){
@@ -62,7 +63,8 @@ const AuthForm = () => {
       },
     }).then(data =>{
       if(data){
-        const expirationTime=new Date( new Date().getTime() + data.expiresIn)
+        const {exp}= jwt_decode(data.token)
+       const expirationTime=new Date(exp*1000)
       authCtx.login(data.token,expirationTime.toISOString(),data.info.admin)
       history.replace('/home')
       }

@@ -1,7 +1,6 @@
 import { useHistory  } from "react-router-dom"
-import { useContext, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import useHttp from '../../Http-request/use-http'
-import AuthContext from '../../store/auth-context'
 import classes from './UpdateRole.module.css'
 
 const UpdateRole = (props)=>{
@@ -13,10 +12,6 @@ const UpdateRole = (props)=>{
     
     const {sendRequest,error, isLoading} = useHttp()
     const history = useHistory()
-
-   const authCtx = useContext(AuthContext)
-    const isLoggedIn = authCtx.isLoggedIn
-    const admin = authCtx.admin
 
     const submitHandler = async(event)=>{
         event.preventDefault()
@@ -49,8 +44,8 @@ const UpdateRole = (props)=>{
     return(
         <section>
       
-      { isLoggedIn&& admin &&<form onSubmit={submitHandler}  className={classes.role}>
-          { isLoggedIn&& admin &&<h1>Update Role</h1>}
+     <form onSubmit={submitHandler}  className={classes.role}>
+          <h1>Update Role</h1>
 
         <div className={classes.control}>
           <label htmlFor='roleName'>New Name</label>
@@ -68,11 +63,8 @@ const UpdateRole = (props)=>{
            <button>Change</button>
         </div>
 
-      </form>}
-      {isLoggedIn && !admin && <h1>{error}</h1>}
-      {!isLoggedIn && !admin && <h1>You are not authorized to access this page !!</h1>}
-
-
+      </form>
+      
     </section>
 
 

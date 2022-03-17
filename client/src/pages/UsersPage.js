@@ -1,6 +1,7 @@
 import UserList from "../components/Users/UserList";
 import useHttp from "../Http-request/use-http";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import AuthContext from "../store/auth-context";
 
 
 const UsersPage = () => {
@@ -8,6 +9,9 @@ const UsersPage = () => {
   const [roles,setRoles]= useState([])
 
   const { sendRequest,error } = useHttp();
+
+  const authCtx = useContext(AuthContext)
+  const isLoggedIn = authCtx.isLoggedIn
 
   useEffect(() => {
     const getRoles= async()=>{
@@ -47,7 +51,9 @@ const UsersPage = () => {
   return(
     <div>
       {!error &&<UserList users={users} roles={roles} />}
-      {error && <h1>{error}</h1>}
+      {error && isLoggedIn && <h1>{error}</h1>}
+      {!isLoggedIn && <h1>You are not authorized to access this page !!</h1>}
+
 
     </div>
      );
