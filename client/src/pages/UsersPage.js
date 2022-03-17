@@ -1,6 +1,8 @@
 import UserList from "../components/Users/UserList";
 import useHttp from "../Http-request/use-http";
 import { useEffect, useState, useContext } from "react";
+import { Redirect } from "react-router-dom"
+
 import AuthContext from "../store/auth-context";
 
 
@@ -8,7 +10,7 @@ const UsersPage = () => {
   const [users,setUsers]= useState([])
   const [roles,setRoles]= useState([])
 
-  const { sendRequest,error } = useHttp();
+  const { sendRequest,error, isLoading} = useHttp();
 
   const authCtx = useContext(AuthContext)
   const isLoggedIn = authCtx.isLoggedIn
@@ -43,16 +45,16 @@ const UsersPage = () => {
         
       }
 
-      getUsers()
-     
+      getUsers()  
     
   }, [sendRequest]);
 
   return(
     <div>
-      {!error &&<UserList users={users} roles={roles} />}
-      {error && isLoggedIn && <h1>{error}</h1>}
-      {!isLoggedIn && <h1>You are not authorized to access this page !!</h1>}
+      {!isLoggedIn && <Redirect to='/auth'/>}
+      {isLoading && <p>Loading...</p>}
+      {!error && !isLoading &&<UserList users={users} roles={roles} />}
+      {error  && <h1>{error}</h1>}
 
 
     </div>

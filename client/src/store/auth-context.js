@@ -41,8 +41,7 @@ export const  AuthContextProvider = (props) =>{
         if(logoutTimer){
             clearTimeout(logoutTimer)
         }
-        //redirect to auth form
-     //<Redirect to='/auth'/>
+    
     },[])
 
     const loginHandler = (token,expirationTime,admin) =>{

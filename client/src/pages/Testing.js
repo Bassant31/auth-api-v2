@@ -1,11 +1,16 @@
 import classes from './Styles.module.css'
-import {  useEffect, useState } from 'react'
+import {  useEffect, useState , useContext} from 'react'
 import useHttp from '../Http-request/use-http'
+import AuthContext from '../store/auth-context'
+import { Redirect } from "react-router-dom"
 
 const TestingPage= ()=>{
 
     const {sendRequest, error}= useHttp()
     const [data, setData] = useState()
+
+    const authCtx = useContext(AuthContext)
+  const isLoggedIn = authCtx.isLoggedIn
 
     useEffect(()=>{
         const fetchData = async()=>{
@@ -24,6 +29,8 @@ const TestingPage= ()=>{
     },[sendRequest])
     return(
         <div>
+            {!isLoggedIn && <Redirect to='/auth'/>}
+
             {!error && <div className={classes.item}>
             <h1>This is the testing plan</h1>
             <br/>

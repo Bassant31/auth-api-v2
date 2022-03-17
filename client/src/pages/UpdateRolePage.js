@@ -2,6 +2,8 @@ import {  useParams } from "react-router-dom"
 import UpdateRole from "../components/Roles/UpdateRole"
 import { useContext } from 'react'
 import AuthContext from '../store/auth-context'
+import { Redirect } from "react-router-dom"
+
 
 const UpdateRolePage  = ()=>{
     const authCtx = useContext(AuthContext)
@@ -13,7 +15,9 @@ const UpdateRolePage  = ()=>{
     const {description} = useParams()
     return(
         <div>
-            {admin && isLoggedIn && <UpdateRole roleId={id} roleName={name} roleDesc={description}></UpdateRole>}
+            {!isLoggedIn && <Redirect to='/auth'/>}
+
+            {admin  && <UpdateRole roleId={id} roleName={name} roleDesc={description}></UpdateRole>}
            {!admin && <h1>You are not authorized to access this page !!</h1>}
 
         </div>

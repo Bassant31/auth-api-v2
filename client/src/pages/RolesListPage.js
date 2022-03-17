@@ -1,6 +1,8 @@
 import AuthContext from "../store/auth-context";
 import useHttp from "../Http-request/use-http";
 import {  useContext, useEffect, useState } from "react";
+import { Redirect } from "react-router-dom"
+
 import RolesList from "../components/Roles/RolesList";
 
 const RolesListPage = () => {
@@ -35,9 +37,9 @@ const RolesListPage = () => {
 
   return(
       <div>
-          {!error &&<RolesList roles={roles} deleteItemHandler={onDeleteItemHandler}></RolesList>}
-          {error && isLoggedIn && <h1>{error}</h1>}
-          {!isLoggedIn && <h1>You are not authorized to access this page !!</h1>}
+        {!isLoggedIn && <Redirect to='/auth'/>}
+        {!error &&<RolesList roles={roles} deleteItemHandler={onDeleteItemHandler}></RolesList>}
+        {error  && <h1>{error}</h1>}
 
       </div>
       
