@@ -29,12 +29,10 @@ const submitHandler = async (event) =>{
     event.preventDefault()
 
     setIsLoading(true)
-
    login(email,password).then(data => {
     setIsLoading(false)
     const {exp}= jwt_decode(data.token)
     const expirationTime=new Date(exp*1000)
-
     authCtx.login(data.token,expirationTime.toISOString(),data.info.admin)
 
     history.replace('/home')
