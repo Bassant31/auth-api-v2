@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Role = require('../models/role')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+
 const validator = require('validator')
 
 
@@ -48,29 +48,6 @@ userSchema.methods.toJSON =function(){
     delete userObject.password
 
     return userObject
-}
-
-
-
-userSchema.methods.generateAuthToken = async function(){
-    const user=this 
-    const token = jwt.sign({_id: user._id.toString()},'thisisasecret',{expiresIn:'1h'})
-    await user.save()
-    return token
-
-}
-
-userSchema.statics.findbyCredentials = async function(email,password){
-    const user = await User.findOne({email})
-    if(!user){
-        throw new Error('Email or password is incorrect')
-    }
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch){
-        throw new Error('Email or password is incorrect')
-    }
-    return user
-
 }
 
 

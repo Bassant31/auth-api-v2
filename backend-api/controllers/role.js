@@ -1,7 +1,7 @@
 const Role = require('../models/role')
 const User = require('../models/user')
 
-const getRoles = async(req,res)=>{
+const getRoles = async(res)=>{
     try{
 
         const roles = await Role.find({})
@@ -14,9 +14,9 @@ const getRoles = async(req,res)=>{
     }
 
 }
-const createRole = async(req,res)=>{
+const createRole = async(body,res)=>{
     try{
-        const role = new Role(req.body)
+        const role = new Role(body)
         await role.save()
         res.status(201).send(role)
 
@@ -28,11 +28,11 @@ const createRole = async(req,res)=>{
     }
 }
 
-const updateRole = async (req,res)=>{
+const updateRole = async ({id,name,description},res)=>{
      try{
          
 
-        const role=await Role.findByIdAndUpdate(req.body.id,{name:req.body.name,description:req.body.description},{new:true})
+        const role=await Role.findByIdAndUpdate(id,{name:name,description:description},{new:true})
         res.status(201).send(role)
 
   
@@ -44,16 +44,17 @@ const updateRole = async (req,res)=>{
     }
 }
 
-const deleteRole = async(req,res)=>{
+const deleteRole = async(id,res)=>{
       try{
           // check user here
-        const count = await User.find({role:req.params.id}).count()
+        const count = await User.find({role:id}).count()
+        
         if(count>0){
             throw new Error ('cannot delete an asigned role!!')
         }
         else{
 
-            const role = await Role.deleteOne({_id:req.params.id})
+            const role = await Role.deleteOne({_id:id})
             res.status(200).send(role)
 
         }

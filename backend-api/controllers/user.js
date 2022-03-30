@@ -1,6 +1,7 @@
 const User=require('../models/user')
 const Role = require('../models/role')
 const credentialValidation = require('../helper/validation')
+const {findbyCredentials,generateAuthToken} = require('../helper/userHelper')
 
 const createNewUser = async(req,res) =>{
     const user = new User(req.body)
@@ -15,8 +16,8 @@ const createNewUser = async(req,res) =>{
 const userLogin = async(req,res)=>{
     try{
         credentialValidation(req.body.email, req.body.password)
-        const user = await User.findbyCredentials(req.body.email, req.body.password)
-        const token = await user.generateAuthToken()
+        const user = await findbyCredentials(req.body.email, req.body.password)
+        const token = await generateAuthToken(user._id)
         const info=await user.populate('role')
         res.send({token,info})
 
@@ -58,6 +59,8 @@ const updateUserRole = async(req,res)=>{
     }
 
 }
+
+
 
 module.exports={
     createNewUser,
