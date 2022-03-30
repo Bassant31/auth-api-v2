@@ -12,10 +12,7 @@ const AddNewRolePage = ()=>{
     return(
         <div>
         {!isLoggedIn && <Redirect to='/auth'/>}
-
-        {admin &&<AddNewRole></AddNewRole>}
-        {!admin && <h1>You are not authorized to access this page !!</h1>}
-
+        {admin?<AddNewRole></AddNewRole>:<h1>You are not authorized to access this page !!</h1>}
         </div>
     )
 }

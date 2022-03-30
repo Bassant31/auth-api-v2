@@ -38,8 +38,7 @@ const RolesListPage = () => {
   return(
       <div>
         {!isLoggedIn && <Redirect to='/auth'/>}
-        {!error &&<RolesList roles={roles} deleteItemHandler={onDeleteItemHandler}></RolesList>}
-        {error  && <h1>{error}</h1>}
+        {error?<h1>{error}</h1>:<RolesList roles={roles} deleteItemHandler={onDeleteItemHandler}></RolesList>}
 
       </div>
       

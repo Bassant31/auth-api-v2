@@ -10,16 +10,17 @@ router.get('/roles',auth,adminAuthority,(req,res)=>{
 })
 
 router.post('/roles',auth,adminAuthority,(req,res)=>{
-    createRole(req,res)
+    createRole(req.body,res)
 })
 
 router.delete('/roles/:id',auth,adminAuthority,(req,res)=>{
-  deleteRole(req,res)
+  deleteRole(req.params.id,res)
     
 })
 
 router.patch('/roles',auth,adminAuthority,(req,res)=>{
-    updateRole(req,res)
+    
+    updateRole(req.body,res)
 
 })
 

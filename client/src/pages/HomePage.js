@@ -28,7 +28,7 @@ return(
     <div>
         {!isLoggedIn && <Redirect to='/auth'/>} 
         {isLoading && <p>Loading...</p>}
-        {!isLoading && info && <Home userInfo={info} />}
+        {(!isLoading || isLoggedIn) && info && <Home userInfo={info} />}
 
     </div>
    

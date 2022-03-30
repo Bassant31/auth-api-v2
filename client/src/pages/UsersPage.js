@@ -51,10 +51,12 @@ const UsersPage = () => {
 
   return(
     <div>
+    
+      
       {!isLoggedIn && <Redirect to='/auth'/>}
       {isLoading && <p>Loading...</p>}
-      {!error && !isLoading &&<UserList users={users} roles={roles} />}
-      {error  && <h1>{error}</h1>}
+      {error?<h1>{error}</h1>:!isLoading &&<UserList users={users} roles={roles} />}
+    
 
 
     </div>

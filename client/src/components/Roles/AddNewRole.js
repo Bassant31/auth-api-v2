@@ -1,31 +1,32 @@
-import { useRef, useState } from 'react'
+import {  useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import useHttp from '../../Http-request/use-http'
 import classes from './AddNewRole.module.css'
 
 const AddNewRole = ()=>{
 
-    const roleNameRef = useRef()
-    const roleDescRef = useRef()
+   
     const {isLoading,error,sendRequest} = useHttp()
     const [isError , setError] = useState(false)
     const history = useHistory()
+    const [enteredName,serEnteredName] = useState("")
+    const [enteredDesc,setEnteredDesc] = useState("")
 
-  
+    const nameChangeHandller = (event)=>{
+          serEnteredName(event.target.value)
 
-  const clearInput = ()=>{
-    setError(false)
-    roleNameRef.current.value =''
-    roleDescRef.current.value =''
-  }
+        }
+    const descChangeHandller = (event)=>{
+          setEnteredDesc(event.target.value)
+
+        }
 
     const submitHandler = async(event)=>{
         event.preventDefault()
-        const enteredName = roleNameRef.current.value
-        const enteredDesc = roleDescRef.current.value
+        
         
         sendRequest({
-          url:'/role',
+          url:'/roles',
           method:'POST',
           body:JSON.stringify({
               name:enteredName.toLowerCase(),
@@ -34,7 +35,7 @@ const AddNewRole = ()=>{
 
       }).then(data=>{
         if(data){
-          clearInput()
+          setError(false)
           history.replace('/roles-list')
 
         }
@@ -54,12 +55,12 @@ const AddNewRole = ()=>{
 
         <div className={classes.control}>
           <label htmlFor='roleName'>Role Name</label>
-          <input type='text' id='roleName' required ref={roleNameRef} />
+          <input type='text' id='roleName' required  onChange={nameChangeHandller} />
         </div>
 
         <div className={classes.control}>
           <label htmlFor='roleDesc'>Role Description</label>
-          <textarea type='text' id='roleDesc' className={classes.roleDesc} required ref={roleDescRef} />
+          <textarea type='text' id='roleDesc' className={classes.roleDesc} required onChange={descChangeHandller} />
         </div>
         {isLoading && <p>Loading...</p>}
         {isError && !isLoading && <p>{error}</p>}
