@@ -29,11 +29,6 @@ const userLogin = async({email,password},res)=>{
         const token = await generateAuthToken(user._id)
         const info=await user.populate('role')
         res.send({token,info})
-
-    const token = await user.generateAuthToken();
-
-    const info = await user.populate("role");
-    res.send({ token, info });
   } catch (e) {
     res.status(400).send({ message: e.message });
   }
