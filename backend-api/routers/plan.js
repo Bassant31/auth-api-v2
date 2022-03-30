@@ -7,11 +7,11 @@ const developerAuthority = require('../middleware/authority/developer')
 
 
 router.get('/devplan',auth,developerAuthority,(req,res)=>{
-    getDevPlan(req,res)
+    getDevPlan(res)
 })
 
 router.get('/testplan',auth,testerAuthority,(req,res)=>{
-   getTesterPlan(req,res)
+   getTesterPlan(res)
 })
 
 
