@@ -9,7 +9,7 @@ router.post('/users',(req,res)=>{
     
     createNewUser(req.body,res)
 })
-router.post('/users/login', async(req,res)=>{
+router.post('/login', async(req,res)=>{
     userLogin(req.body,res)
 })
 

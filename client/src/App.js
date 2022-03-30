@@ -1,7 +1,9 @@
 
 import { Switch, Route } from 'react-router-dom';
 
-import AuthPage from './pages/AuthPage';
+
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage'
 import UsersPage from './pages/UsersPage';
 import RolesListPage from './pages/RolesListPage';
@@ -18,10 +20,13 @@ function App() {
     <Layout>
       <Switch>
       <Route path='/' exact>
-        <AuthPage/>
+        <LoginPage/>
       </Route>
-      <Route path='/auth'> 
-        <AuthPage/>
+      <Route path='/login'> 
+        <LoginPage/>
+      </Route>
+      <Route path='/register'> 
+        <RegisterPage/>
       </Route>
       <Route path='/home'>
         <HomePage/>

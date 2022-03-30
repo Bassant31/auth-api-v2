@@ -13,7 +13,7 @@ const MainNavigation = () => {
   function logoutHandler(){
     authCtx.logout()
    
-    history.replace('/auth')
+    history.replace('/login')
   }
   return (
     <header className={classes.header}>

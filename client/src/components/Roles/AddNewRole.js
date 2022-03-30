@@ -25,7 +25,7 @@ const AddNewRole = ()=>{
         const enteredDesc = roleDescRef.current.value
         
         sendRequest({
-          url:'/role',
+          url:'/roles',
           method:'POST',
           body:JSON.stringify({
               name:enteredName.toLowerCase(),
