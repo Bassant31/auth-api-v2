@@ -1,6 +1,8 @@
-const User = require("../models/user");
-const Role = require("../models/role");
-const credentialValidation = require("../helper/validation");
+
+const User=require('../models/user')
+const Role = require('../models/role')
+const credentialValidation = require('../helper/validation')
+const {findbyCredentials,generateAuthToken} = require('../helper/userHelper')
 
 const createNewUser = async (body, res) => {
   try {
@@ -19,11 +21,14 @@ const createNewUser = async (body, res) => {
     res.status(400).send({ message: e.message });
   }
 };
-const userLogin = async (body, res) => {
-  try {
-    const {email,password} = body
-    credentialValidation(email, password);
-    const user = await User.findbyCredentials(email,password)
+
+const userLogin = async({email,password},res)=>{
+    try{
+        credentialValidation(email, password)
+        const user = await findbyCredentials(email, password)
+        const token = await generateAuthToken(user._id)
+        const info=await user.populate('role')
+        res.send({token,info})
 
     const token = await user.generateAuthToken();
 
@@ -67,6 +72,7 @@ const updateUserRole = async (body, res) => {
   }
 };
 
+
 module.exports = {
   createNewUser,
   userLogin,
@@ -74,3 +80,4 @@ module.exports = {
   getUserInfo,
   updateUserRole,
 };
+

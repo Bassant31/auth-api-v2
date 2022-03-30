@@ -4,12 +4,8 @@ const adminAuthority = require('../middleware/authority/admin')
 const auth = require('../middleware/auth')
 const router = express.Router()
 
-
-
-
-
 router.get('/roles',auth,adminAuthority,(req,res)=>{
-    getRoles(req,res)
+    getRoles(res)
     
 })
 
@@ -24,8 +20,7 @@ router.delete('/roles/:id',auth,adminAuthority,(req,res)=>{
 
 router.patch('/roles',auth,adminAuthority,(req,res)=>{
     updateRole(req,res)
-   
-    
+
 })
 
 
