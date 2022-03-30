@@ -1,4 +1,6 @@
 const express = require('express')
+var cors = require('cors')
+
 
 require('./db/mongoose')
 require('./seeds/addAdmin')
@@ -9,6 +11,8 @@ const planRouter = require('./routers/plan')
 const roleRouter = require('./routers/role')
 
 const app= express()
+app.use(cors())
+
 app.use(express.json())
 
 app.use(userRouter)
