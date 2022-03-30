@@ -13,16 +13,16 @@ router.get('/roles',auth,adminAuthority,(req,res)=>{
     
 })
 
-router.post('/role',auth,adminAuthority,(req,res)=>{
+router.post('/roles',auth,adminAuthority,(req,res)=>{
     createRole(req,res)
 })
 
-router.delete('/role/:id',auth,adminAuthority,(req,res)=>{
+router.delete('/roles/:id',auth,adminAuthority,(req,res)=>{
   deleteRole(req,res)
     
 })
 
-router.patch('/role',auth,adminAuthority,(req,res)=>{
+router.patch('/roles',auth,adminAuthority,(req,res)=>{
     updateRole(req,res)
    
     

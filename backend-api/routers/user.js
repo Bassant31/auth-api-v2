@@ -6,22 +6,23 @@ const adminAuthority = require('../middleware/authority/admin')
 const router=new express.Router()
 
 router.post('/users',(req,res)=>{
-    createNewUser(req,res)
+    
+    createNewUser(req.body,res)
 })
 router.post('/users/login', async(req,res)=>{
-    userLogin(req,res)
+    userLogin(req.body,res)
 })
 
 router.get('/users', auth,adminAuthority,(req,res)=>{
-  getUsers(req,res)
+  getUsers(res)
 })
 
 router.get('/users/me',auth,(req,res)=>{
-    getUserInfo(req,res)
+    getUserInfo(req.user,res)
 })
 
 router.patch('/users',auth,adminAuthority,async(req,res) =>{
-    updateUserRole(req,res)
+    updateUserRole(req.body,res)
    })
 
 

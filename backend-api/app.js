@@ -1,6 +1,9 @@
-require('./db/mongoose')
-
 const express = require('express')
+
+require('./db/mongoose')
+require('./seeds/addAdmin')
+require('./seeds/addMainRoles')
+
 const userRouter= require('./routers/user')
 const planRouter = require('./routers/plan')
 const roleRouter = require('./routers/role')
