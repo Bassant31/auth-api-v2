@@ -10,15 +10,12 @@ const UpdateRolePage  = ()=>{
     const admin = authCtx.admin
     const isLoggedIn = authCtx.isLoggedIn
 
-    const {id} = useParams()
-    const {name} = useParams()
-    const {description} = useParams()
+    const {id,name,description} = useParams()
+  
     return(
         <div>
             {!isLoggedIn && <Redirect to='/auth'/>}
-
-            {admin  && <UpdateRole roleId={id} roleName={name} roleDesc={description}></UpdateRole>}
-           {!admin && <h1>You are not authorized to access this page !!</h1>}
+            {admin?<UpdateRole roleId={id} roleName={name} roleDesc={description}></UpdateRole>:<h1>You are not authorized to access this page !!</h1>}
 
         </div>
     )

@@ -19,7 +19,7 @@ router.delete('/roles/:id',auth,adminAuthority,(req,res)=>{
 })
 
 router.patch('/roles',auth,adminAuthority,(req,res)=>{
-    updateRole(req.body.id,res)
+    updateRole(req.body,res)
 
 })
 

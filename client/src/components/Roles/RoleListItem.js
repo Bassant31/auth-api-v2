@@ -7,13 +7,14 @@ import { useState } from 'react'
 const RoleListItem = (props)=>{
     const {sendRequest,error} = useHttp()
     const [Error, setError] = useState(false)
+    
     const onDeleteHandler = async()=>{
        sendRequest({
-            url:`/role/${props.id}`,
+            url:`/roles/${props.id}`,
             method:'DELETE',
         }).then(data =>{
             if (data){
-                setError(false)
+        setError(false)
            props.deleteItem()
         }
         else{

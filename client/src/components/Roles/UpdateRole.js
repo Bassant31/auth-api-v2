@@ -1,25 +1,34 @@
 import { useHistory  } from "react-router-dom"
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import useHttp from '../../Http-request/use-http'
 import classes from './UpdateRole.module.css'
 
 const UpdateRole = (props)=>{
    
-   const [isError , setError] = useState(false)
-    const roleNameRef = useRef()
-    const roleDescRef = useRef()
-   
+    const [isError , setError] = useState(false)
+    const [enteredName,setEnteredName] = useState(props.roleName)
+    const [enteredDesc,setEnteredDesc] = useState(props.roleDesc)
     
     const {sendRequest,error, isLoading} = useHttp()
     const history = useHistory()
 
+    const nameChangeHandller = (event)=>{
+      console.log("name handler",event.target.value)
+        setEnteredName(event.target.value)
+        //setEnteredDesc(enteredDesc => enteredDesc)
+      }
+    const descChangeHandller = (event)=>{
+      setEnteredDesc(event.target.value)
+     // setEnteredName(enteredName => enteredName)
+
+    }
+
     const submitHandler = async(event)=>{
         event.preventDefault()
-        const enteredName = roleNameRef.current.value
-        const enteredDesc = roleDescRef.current.value
+
        
         sendRequest({
-          url:'/role',
+          url:'/roles',
           method:'PATCH',
           body:JSON.stringify({
               id:props.roleId,
@@ -29,8 +38,9 @@ const UpdateRole = (props)=>{
 
       }).then(data =>{
         if(data){ 
-        roleNameRef.current.value =""
-        roleDescRef.current.value =""
+          setEnteredDesc('')
+          setEnteredName('')
+        
         setError(false)
         history.replace('/roles-list')}
         else{
@@ -49,12 +59,12 @@ const UpdateRole = (props)=>{
 
         <div className={classes.control}>
           <label htmlFor='roleName'>New Name</label>
-          <input type='text' id='roleName' required ref={roleNameRef}  defaultValue={props.roleName}/>
+          <input type='text' id='roleName' required onChange={nameChangeHandller}  defaultValue={props.roleName}/>
         </div>
 
         <div className={classes.control}>
           <label htmlFor='roleDesc'>New Description</label>
-          <textarea type='text' id='roleDesc' className={classes.roleDesc} required ref={roleDescRef} defaultValue={props.roleDesc} />
+          <textarea type='text' id='roleDesc' className={classes.roleDesc} required onChange={descChangeHandller} defaultValue={props.roleDesc} />
         </div>
         {isLoading && <p>Loading...</p>}
         {isError && !isLoading && <p>{error}</p>}

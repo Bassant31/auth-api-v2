@@ -30,16 +30,16 @@ const TestingPage= ()=>{
     return(
         <div>
             {!isLoggedIn && <Redirect to='/auth'/>}
+            {error?<h1>{error}</h1>:<div className={classes.item}>
+                                   <h1>This is the testing plan</h1>
+                                   <br/>
+                                   <p>
+                                   {data}
+                                     </p>
+                                     </div>
+            }
 
-            {!error && <div className={classes.item}>
-            <h1>This is the testing plan</h1>
-            <br/>
-            <p>
-                {data}
-            </p>
-
-        </div>}
-        {error && <h1>{error}</h1>}
+      
 
         </div>
         
