@@ -1,3 +1,5 @@
+import {getLocalStorage, clearLocalStorage} from '../HelperFunction/localStorage'
+
 export const calculateRemainingTime =(expirationTime)=>{
 
     const currentTime = new Date().getTime()
@@ -8,14 +10,11 @@ export const calculateRemainingTime =(expirationTime)=>{
 }
 
 export const retrieveStoredToken =()=>{
-    const storedToken = localStorage.getItem('token')
-    const storedExpirationTime = localStorage.getItem('expirationTime')
-
+    const{storedToken,storedExpirationTime} = getLocalStorage()
     const remainingTime = calculateRemainingTime(storedExpirationTime)
 
     if(remainingTime <= 60000){
-        localStorage.removeItem('token')
-        localStorage.removeItem('expirationTime')
+        clearLocalStorage()
         return null
     }
 
