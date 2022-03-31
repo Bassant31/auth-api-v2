@@ -6,6 +6,7 @@ import classes from "./AuthForm.module.css";
 import jwt_decode from "jwt-decode";
 
 const LoginForm = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
@@ -29,8 +30,9 @@ const submitHandler = async (event) =>{
     event.preventDefault()
 
     setIsLoading(true)
-   login(email,password).then(data => {
+    login(email,password).then(data => {
     setIsLoading(false)
+    
     const {exp}= jwt_decode(data.token)
     const expirationTime=new Date(exp*1000)
     authCtx.login(data.token,expirationTime.toISOString(),data.info.admin)
