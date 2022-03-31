@@ -1,38 +1,28 @@
 import AuthContext from "../store/auth-context";
-import useHttp from "../Http-request/use-http";
+
 import {  useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom"
+import {getRole} from "../apis/roles"
 
 import RolesList from "../components/Roles/RolesList";
 
 const RolesListPage = () => {
-    const [roles,setRoles]= useState([])
-    const {sendRequest, error}= useHttp()
 
+    const [roles,setRoles]= useState([])
+    const [itemDeleted,setItemDeleted] = useState(false)
+    const [error,setError] = useState(false)
     const authCtx= useContext(AuthContext)
     const isLoggedIn =  authCtx.isLoggedIn
 
-    const [itemDeleted,setItemDeleted] = useState(false)
-    let onDeleteItemHandler = ()=>{
-        setItemDeleted(!itemDeleted)
-            
-    }
+    let onDeleteItemHandler = ()=>{setItemDeleted(!itemDeleted)}
     
     useEffect(()=>{
-        const getRole= async()=>{
-            sendRequest({
-                url:'/roles',
-            }).then(data =>{
-              if (data){
-                setRoles(data)
-     
-              }
-            })
-        }
-        getRole()
-      
-
-    },[sendRequest,authCtx.token,itemDeleted])
+      getRole(authCtx.token)
+      .then(data=>{
+        setRoles(data)})
+      .catch((e)=>setError(true))
+    },[authCtx.token,getRole,itemDeleted]) 
+    // itemDeleted so when delete reload page and get list without deleted item
 
 
   return(

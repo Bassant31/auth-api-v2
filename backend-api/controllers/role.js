@@ -14,12 +14,17 @@ const getRoles = async(res)=>{
     }
 
 }
-const createRole = async(body,res)=>{
+const createRole = async({name,description},res)=>{
+    const checkRole = await Role.find({name})
     try{
-        const role = new Role(body)
-        await role.save()
-        res.status(201).send(role)
-
+        if(checkRole.length>0){ 
+                throw new Error()
+            }
+        else{
+            const role = new Role({name,description})
+            await role.save()
+            res.status(201).send(role)
+        }
     }
     catch(e){
 
@@ -30,12 +35,20 @@ const createRole = async(body,res)=>{
 
 const updateRole = async ({id,name,description},res)=>{
      try{
-         
-
-        const role=await Role.findByIdAndUpdate(id,{name:name,description:description},{new:true})
-        res.status(201).send(role)
-
-  
+         const checkRole = await Role.find({name})
+         if(checkRole.length>0){ 
+             if(checkRole[0]._id.toString() !== id){
+                throw new Error()
+            } 
+             else{
+                 const role=await Role.findByIdAndUpdate(id,{name:name,description:description})
+                  res.status(201).send(role)
+                }
+            }
+         else{
+            const role=await Role.findByIdAndUpdate(id,{name:name,description:description})
+            res.status(201).send(role)
+        }
     }
     catch(e){
       

@@ -5,10 +5,7 @@ import RoleListItem from "./RoleListItem"
 
 const RolesList =(props)=>{
     const history = useHistory()
-    const onAddNewRoleHandler = ()=>{
-        history.push('/add-new-role')
-
-    }
+    const onAddNewRoleHandler = ()=>{history.push('/add-new-role')}
     
     return(
         <section className={classes.section}>
