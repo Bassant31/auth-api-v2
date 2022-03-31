@@ -27,23 +27,23 @@ const LoginForm = () => {
 }
 
 const submitHandler = async (event) =>{
-    event.preventDefault()
+  event.preventDefault()
 
-    setIsLoading(true)
-    login(email,password).then(data => {
-    setIsLoading(false)
-    
-    const {exp}= jwt_decode(data.token)
-    const expirationTime=new Date(exp*1000)
-    authCtx.login(data.token,expirationTime.toISOString(),data.info.admin)
+  setIsLoading(true)
+  login(email,password).then(data => {
+  setIsLoading(false)
+  
+  const {exp}= jwt_decode(data.token)
+  const expirationTime=new Date(exp*1000)
+  authCtx.login(data.token,expirationTime.toISOString(),data.info.admin)
 
-    history.replace('/home')
+  history.replace('/home')
 
-   }).catch(error=>{
-    setIsLoading(false)
-    setError(error.response.data.message)
-   })
-   
+ }).catch(error=>{
+  setIsLoading(false)
+  setError(error.response.data.message)
+ })
+ 
 
 }
   return (

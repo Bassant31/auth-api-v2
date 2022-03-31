@@ -1,15 +1,17 @@
 import classes from "./UserItem.module.css";
-import useHttp from "../../Http-request/use-http";
+import {updateUserRole} from '../../apis/users'
 import { useState } from "react";
 
+
+
 const UserItem = (props) => {
-  const { sendRequest } = useHttp();
-   const [role,setRole]=useState(props.role)
+  const [role,setRole]=useState(props.role)
+
+  const token = localStorage.getItem('token')
 
   let newRole = props.role;
+  const Roles=[{name: 'no role'}]
 
-  
-const Roles=[{name: 'no role'}]
  for(const role in props.listOfRoles){
    Roles.push({name : props.listOfRoles[role].name})
  }
@@ -17,15 +19,12 @@ const Roles=[{name: 'no role'}]
   function changeHandler(e) {
     newRole = e.target.value;
   }
-  function saveHandler() {
-    sendRequest({
-      url:'/users',
-      method: 'PATCH',
-      body: JSON.stringify({ id: props.id, role: newRole }),
-      
-    });
+
+  const saveHandler=async()=> {
+    await updateUserRole(token, props.id, newRole)
     setRole(newRole)
   }
+
   return (
     <li className={classes["user-item"]}>
       <div>

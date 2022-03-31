@@ -1,18 +1,19 @@
 import { useState } from "react";
-import useHttp from "../../Http-request/use-http";
 import { useHistory } from "react-router";
 import classes from "./AuthForm.module.css";
+import {register} from '../../apis/users'
 
 const RegisterationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading]= useState(false)
+
+
+
   const history = useHistory();
-
-  const { isLoading, error, sendRequest } = useHttp();
-
-  const [isError, setisError] = useState(false);
 
   const switchAuthModeHandler = () => {
     history.push("/login");
@@ -28,29 +29,20 @@ const RegisterationForm = () => {
     setName(event.target.value);
   };
 
-  const submitHandler = async (event) =>{
+  const submitHandler =  (event) =>{
     event.preventDefault()
-    sendRequest({
-        url:'/users',
-         method:'POST',
-         body:JSON.stringify( {
-          email: email,
-          password: password,
-          name:name
-        }),
-          headers:{
-        'Content-Type':'application/json'
-      },
-    }).then(data => {
-      if (data){
+
+    setIsLoading(true)
+    register(email,password,name).then(data =>{
+      setIsLoading(false)
       alert('Account created')
       history.push('/login')
-    
-      }
-      else{
-        setisError(true)
-      }
+
+    }).catch(error =>{
+      setIsLoading(false)
+      setError(error.response.data.message)
     })
+
   }
 
   return (
@@ -91,7 +83,7 @@ const RegisterationForm = () => {
           >
             Login with existing account
           </button>
-          {isError && !isLoading && <p>{error}</p>}
+          {error && !isLoading && <p>{error}</p>}
         </div>
       </form>
     </section>

@@ -1,10 +1,25 @@
 import instance from "./axios";
 
-const getDevPlan =()=>{
-    instance({
+export const getDevPlan =async (token)=>{
+    const response =await instance({
         method:'get',
         url:'/devplan',
-        headers:{}
+        headers:{
+            'Authorization':token
+        }
     })
+    const {data:{plan}} = response
+    return plan
 }
 
+export const getTestPlan =async(token)=>{
+    const response = await instance({
+        method:'get',
+        url:'/testplan',
+        headers:{
+            'Authorization':token
+        }
+    })
+    const {data:{plan}} = response
+    return plan
+}
