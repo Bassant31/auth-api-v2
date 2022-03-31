@@ -1,6 +1,7 @@
 import { useHistory  } from "react-router-dom"
 import { useState } from 'react'
 import {updateRole} from '../../apis/roles'
+import {getLocalStorage} from '../../HelperFunction/localStorage'
 import classes from './UpdateRole.module.css'
 
 
@@ -10,6 +11,7 @@ const UpdateRole = (props)=>{
     const [loading , setLoading] = useState(false)
     const [enteredName,setEnteredName] = useState(props.roleName)
     const [enteredDesc,setEnteredDesc] = useState(props.roleDesc)
+    const {storedToken}= getLocalStorage()
     const history = useHistory()
 
     const nameChangeHandller = (event)=>{setEnteredName(event.target.value)}
@@ -18,7 +20,7 @@ const UpdateRole = (props)=>{
     const submitHandler = async(event)=>{
         event.preventDefault()
         setLoading(true)
-        updateRole(props.roleId,enteredName.toLowerCase(),enteredDesc) //call update func
+        updateRole(props.roleId,enteredName.toLowerCase(),enteredDesc,storedToken) //call update func
         .then((data)=>{
             setEnteredDesc('')
             setEnteredName('')

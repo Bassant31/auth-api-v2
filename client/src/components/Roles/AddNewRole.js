@@ -1,6 +1,7 @@
 import {  useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import {createRole} from '../../apis/roles'
+import {getLocalStorage} from '../../HelperFunction/localStorage'
 import classes from './AddNewRole.module.css'
 
 const AddNewRole = ()=>{
@@ -9,6 +10,7 @@ const AddNewRole = ()=>{
     const [error , setError] = useState("")
     const [enteredName,serEnteredName] = useState("")
     const [enteredDesc,setEnteredDesc] = useState("")
+    const {storedToken}= getLocalStorage()
     const history = useHistory()
   
 
@@ -18,7 +20,7 @@ const AddNewRole = ()=>{
     const submitHandler = async(event)=>{
       event.preventDefault()
       setLoading(true)
-      createRole(enteredName.toLowerCase(),enteredDesc)
+      createRole(enteredName.toLowerCase(),enteredDesc,storedToken)
       .then(data=>{
         setError("")
          history.replace('/roles-list')

@@ -2,7 +2,7 @@ import UserList from "../components/Users/UserList";
 import { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router-dom"
 import {getAllUsers} from '../apis/users'
-import { getRole } from "../apis/roles";
+import {getRole} from "../apis/roles"
 
 import AuthContext from "../store/auth-context";
 
@@ -20,11 +20,8 @@ const UsersPage = () => {
   const token=localStorage.getItem('token')
 
   useEffect(() => {
-    const getRoles= async()=>{
-        getRole().then(data =>{
-          setRoles(data)
-        })
-     }
+    getRole(token).then(data=>{setRoles(data)})
+     
       const getUsers= async()=>{
         setIsLoading(true)
         getAllUsers(token).then(data =>{
@@ -38,7 +35,7 @@ const UsersPage = () => {
           setError(error.response.data.message)
           
         })
-        getRoles()
+        
         
       }
 

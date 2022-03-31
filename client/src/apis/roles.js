@@ -1,24 +1,24 @@
 import instance from "./axios";
 import {getLocalStorage} from '../HelperFunction/localStorage'
 
-const {storedToken}= getLocalStorage()
+
     
 
-export const createRole =async (name, description)=>requestConfig('post','/roles',{name,description})
+export const createRole =async (name, description,token)=>requestConfig('post','/roles',{name,description},token)
 
-export const getRole = async()=>requestConfig('get','/roles',{})
+export const getRole = async(token)=>requestConfig('get','/roles',{},token)
 
-export const updateRole =  async (id,name,description)=>requestConfig('patch','/roles',{id,name,description})
+export const updateRole =  async (id,name,description,token)=>requestConfig('patch','/roles',{id,name,description},token)
 
-export const deleteRole = async (id)=>requestConfig('delete',`/roles/${id}`,{})
+export const deleteRole = async (id,token)=>requestConfig('delete',`/roles/${id}`,{},token)
 
-const requestConfig= async (method,url,data)=>{
+const requestConfig= async (method,url,data,token)=>{
       const response = await instance({
         method,
         url ,
         data:data?data:null,
         headers:{
-            'Authorization':storedToken
+            'Authorization':token
         } 
     })
     return response.data

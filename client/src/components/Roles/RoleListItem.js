@@ -3,12 +3,15 @@ import Card from '../UI/Card'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import {deleteRole} from '../../apis/roles'
+import {getLocalStorage} from '../../HelperFunction/localStorage'
+
 
 const RoleListItem = (props)=>{
     const [error, setError] = useState("")
+    const {storedToken}= getLocalStorage()
     
     const onDeleteHandler = async()=>{
-        deleteRole(props.id)
+        deleteRole(props.id,storedToken)
         .then(data=>{
             setError("")
             props.deleteItem()

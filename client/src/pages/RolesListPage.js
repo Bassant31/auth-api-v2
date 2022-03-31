@@ -1,5 +1,5 @@
 import AuthContext from "../store/auth-context";
-
+import {getLocalStorage} from '../HelperFunction/localStorage'
 import {  useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom"
 import {getRole} from "../apis/roles"
@@ -13,15 +13,16 @@ const RolesListPage = () => {
     const [error,setError] = useState()
     const authCtx= useContext(AuthContext)
     const isLoggedIn =  authCtx.isLoggedIn
+    const {storedToken}= getLocalStorage()
 
     let onDeleteItemHandler = ()=>{setItemDeleted(!itemDeleted)}
     
     useEffect(()=>{
-      getRole()
+      getRole(storedToken)
       .then(data=>{
         setRoles(data)})
       .catch((e)=>setError(e.response.data.message))
-    },[ itemDeleted]) 
+    },[ itemDeleted,storedToken]) 
     // itemDeleted so when delete reload page and get list without deleted item
 
 
