@@ -1,7 +1,8 @@
 import UserList from "../components/Users/UserList";
-import useHttp from "../Http-request/use-http";
 import { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router-dom"
+import {getAllUsers} from '../apis/users'
+import { getRole } from "../apis/roles";
 
 import AuthContext from "../store/auth-context";
 
@@ -9,51 +10,47 @@ import AuthContext from "../store/auth-context";
 const UsersPage = () => {
   const [users,setUsers]= useState([])
   const [roles,setRoles]= useState([])
+  const [isLoading, setIsLoading]= useState(false)
+  const [error, setError]= useState()
 
-  const { sendRequest,error, isLoading} = useHttp();
 
   const authCtx = useContext(AuthContext)
   const isLoggedIn = authCtx.isLoggedIn
 
+  const token=localStorage.getItem('token')
+
   useEffect(() => {
     const getRoles= async()=>{
-        
-      sendRequest({
-           url:'/roles',
-       }).then(data =>{
-         if (data){
-           setRoles(data)
-
-         }
-       })
+        getRole().then(data =>{
+          setRoles(data)
+        })
      }
       const getUsers= async()=>{
+        setIsLoading(true)
+        getAllUsers(token).then(data =>{
 
-        sendRequest({
-          url: '/users',
-         
-        }).then(data =>{
-          if(data){
-            const loadedUsers=[]
-          for(const key in data.users){
-              loadedUsers.push(data.users[key])
-          }
-          setUsers(loadedUsers)
-          getRoles()
-          }
-        });
+          setIsLoading(false)
+          setUsers(data)
+
+        }).catch(error =>{
+
+          setIsLoading(false)
+          setError(error.response.data.message)
+          
+        })
+        getRoles()
         
       }
 
       getUsers()  
     
-  }, [sendRequest]);
+  }, [token]);
 
   return(
     <div>
     
       
-      {!isLoggedIn && <Redirect to='/auth'/>}
+      {!isLoggedIn && <Redirect to='/login'/>}
       {isLoading && <p>Loading...</p>}
       {error?<h1>{error}</h1>:!isLoading &&<UserList users={users} roles={roles} />}
     

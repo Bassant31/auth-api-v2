@@ -1,4 +1,4 @@
-import React, { useState, useEffect,  useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 import {calculateRemainingTime,retrieveStoredToken} from '../HelperFunction/expiry'
 import {setLocalStorage, clearLocalStorage} from '../HelperFunction/localStorage'
@@ -31,16 +31,17 @@ export const  AuthContextProvider = (props) =>{
     const userLoggedIn = !!token
     const isAdmin = !!admin
     
-    const logoutHandler = useCallback(() =>{
+    const logoutHandler = () =>{
       
        clearLocalStorage()
+       localStorage.removeItem('admin')
         setAdmin(false)
         setToken(null)
         if(logoutTimer){
             clearTimeout(logoutTimer)
         }
     
-    },[])
+    }
 
     const loginHandler = (token,expirationTime,admin) =>{
        if(admin)
@@ -64,7 +65,7 @@ export const  AuthContextProvider = (props) =>{
             logoutTimer= setTimeout(logoutHandler,tokenData.duration)
 
         }
-    },[tokenData, logoutHandler])
+    },[tokenData])
   
 
     const contextValue={

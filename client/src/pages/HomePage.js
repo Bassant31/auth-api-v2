@@ -1,34 +1,35 @@
 import Home from "../components/Home/Home"
-import useHttp from "../Http-request/use-http"
 import AuthContext from "../store/auth-context"
 import { useEffect, useState, useContext } from "react"
 import { Redirect } from "react-router-dom"
+import {getUserInformation} from '../apis/users'
 
 const HomePage=()=>{
+    const [isLoading, setIsLoading]= useState(false)
 
     const authCtx = useContext(AuthContext)
     const isLoggedIn = authCtx.isLoggedIn
 
     const [info,setInfo]=useState()
-    const {isLoading,sendRequest} = useHttp()
+
+    const token = localStorage.getItem('token')
 
     useEffect(()=>{
-        const getUserInfo= async()=>{
-            const data = await sendRequest({
-                url:'/users/me',
-            })
-            setInfo(data)            
-
+        const getUserInfo = async ()=>{
+            setIsLoading(true)
+            const data = await getUserInformation(token)
+            setInfo(data)
+            setIsLoading(false)
         }
         getUserInfo()
-    },[sendRequest])
+    },[token])
 
  
 return(
     <div>
-        {!isLoggedIn && <Redirect to='/auth'/>} 
+        {!isLoggedIn && <Redirect to='/login'/>} 
         {isLoading && <p>Loading...</p>}
-        {(!isLoading || isLoggedIn) && info && <Home userInfo={info} />}
+        {!isLoading  && info && <Home userInfo={info} />}
 
     </div>
    

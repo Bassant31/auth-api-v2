@@ -1,37 +1,34 @@
 import { useEffect, useState, useContext } from 'react'
-import useHttp from '../Http-request/use-http'
 import classes from './Styles.module.css'
 import AuthContext from '../store/auth-context'
 import { Redirect } from "react-router-dom"
+import {getDevPlan} from '../apis/plans'
 
 
 const DevelopmentPage= ()=>{
-    const {sendRequest, error}= useHttp()
     const [data, setData] = useState()
+    const [error, setError] = useState();
+
+    const token = localStorage.getItem('token')
+
+
     const authCtx = useContext(AuthContext)
-  const isLoggedIn = authCtx.isLoggedIn
+    const isLoggedIn = authCtx.isLoggedIn
 
     useEffect(()=>{
         const fetchData = async()=>{
-            await sendRequest({
-                url:'/devplan',
-    
-            }).then(data =>{
-                if(data){
-                    setData(data.plan)
-
-                }
+            getDevPlan(token).then(data =>{
+                setData(data)
+            }).catch(error =>{
+                setError(error.response.data.message)
             })
-            
         }
         fetchData()
-
-
-    },[sendRequest])
+    },[token])
 
     return(
         <div>
-            {!isLoggedIn && <Redirect to='/auth'/>}
+            {!isLoggedIn && <Redirect to='/login'/>}
             {error?<h1>{error}</h1>:<div className={classes.item}>
                                        <h1>This is the development plan</h1>
                                        <br/>

@@ -4,7 +4,6 @@ import {getLocalStorage} from '../HelperFunction/localStorage'
 const {storedToken}= getLocalStorage()
     
 
-
 export const createRole =async (name, description)=>requestConfig('post','/roles',{name,description})
 
 export const getRole = async()=>requestConfig('get','/roles',{})

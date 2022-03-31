@@ -40,7 +40,7 @@ const userLogin = async({email,password},res)=>{
 const getUsers = async (res) => {
   try {
     const users = await User.find({ admin: false }).populate("role");
-    res.send({ users });
+    res.send( users );
   } catch (e) {
     res.status(500).send();
   }

@@ -14,7 +14,7 @@ const UpdateRolePage  = ()=>{
   
     return(
         <div>
-            {!isLoggedIn && <Redirect to='/auth'/>}
+            {!isLoggedIn && <Redirect to='/login'/>}
             {admin?<UpdateRole roleId={id} roleName={name} roleDesc={description}></UpdateRole>:<h1>You are not authorized to access this page !!</h1>}
 
         </div>
