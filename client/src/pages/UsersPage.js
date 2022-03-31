@@ -21,7 +21,7 @@ const UsersPage = () => {
 
   useEffect(() => {
     const getRoles= async()=>{
-        getRole(token).then(data =>{
+        getRole().then(data =>{
           setRoles(data)
         })
      }

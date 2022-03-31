@@ -1,58 +1,36 @@
 import { useHistory  } from "react-router-dom"
 import { useState } from 'react'
-import useHttp from '../../Http-request/use-http'
+import {updateRole} from '../../apis/roles'
 import classes from './UpdateRole.module.css'
+
 
 const UpdateRole = (props)=>{
    
-    const [isError , setError] = useState(false)
+    const [error , setError] = useState("")
+    const [loading , setLoading] = useState(false)
     const [enteredName,setEnteredName] = useState(props.roleName)
     const [enteredDesc,setEnteredDesc] = useState(props.roleDesc)
-    
-    const {sendRequest,error, isLoading} = useHttp()
     const history = useHistory()
 
-    const nameChangeHandller = (event)=>{
-      console.log("name handler",event.target.value)
-        setEnteredName(event.target.value)
-        //setEnteredDesc(enteredDesc => enteredDesc)
-      }
-    const descChangeHandller = (event)=>{
-      setEnteredDesc(event.target.value)
-     // setEnteredName(enteredName => enteredName)
-
-    }
+    const nameChangeHandller = (event)=>{setEnteredName(event.target.value)}
+    const descChangeHandller = (event)=>{setEnteredDesc(event.target.value)}
 
     const submitHandler = async(event)=>{
         event.preventDefault()
-
-       
-        sendRequest({
-          url:'/roles',
-          method:'PATCH',
-          body:JSON.stringify({
-              id:props.roleId,
-              name:enteredName.toLowerCase(),
-              description:enteredDesc
-          }),
-
-      }).then(data =>{
-        if(data){ 
-          setEnteredDesc('')
-          setEnteredName('')
-        
-        setError(false)
-        history.replace('/roles-list')}
-        else{
-          setError(true)
-        }
-      
-      })
-        
+        setLoading(true)
+        updateRole(props.roleId,enteredName.toLowerCase(),enteredDesc) //call update func
+        .then((data)=>{
+            setEnteredDesc('')
+            setEnteredName('')
+            setError("")
+            history.replace('/roles-list')
+        })
+        .catch((error)=>{setError(error.response.data.message)})
+        setLoading(false)    
     }
 
-    return(
-        <section>
+  return(
+       <section>
       
      <form onSubmit={submitHandler}  className={classes.role}>
           <h1>Update Role</h1>
@@ -66,8 +44,8 @@ const UpdateRole = (props)=>{
           <label htmlFor='roleDesc'>New Description</label>
           <textarea type='text' id='roleDesc' className={classes.roleDesc} required onChange={descChangeHandller} defaultValue={props.roleDesc} />
         </div>
-        {isLoading && <p>Loading...</p>}
-        {isError && !isLoading && <p>{error}</p>}
+        {loading && <p>Loading...</p>}
+        {error && !loading && <p>{error}</p>}
    
         <div className={classes.actions}>
            <button>Change</button>
@@ -76,9 +54,6 @@ const UpdateRole = (props)=>{
       </form>
       
     </section>
-
-
     )
-
 }
 export default UpdateRole

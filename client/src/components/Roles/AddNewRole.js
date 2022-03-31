@@ -1,52 +1,33 @@
 import {  useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import useHttp from '../../Http-request/use-http'
+import {createRole} from '../../apis/roles'
 import classes from './AddNewRole.module.css'
 
 const AddNewRole = ()=>{
 
-   
-    const {isLoading,error,sendRequest} = useHttp()
-    const [isError , setError] = useState(false)
-    const history = useHistory()
+    const [loading , setLoading] = useState(false)
+    const [error , setError] = useState("")
     const [enteredName,serEnteredName] = useState("")
     const [enteredDesc,setEnteredDesc] = useState("")
+    const history = useHistory()
+  
 
-    const nameChangeHandller = (event)=>{
-          serEnteredName(event.target.value)
-
-        }
-    const descChangeHandller = (event)=>{
-          setEnteredDesc(event.target.value)
-
-        }
+    const nameChangeHandller = (event)=>{serEnteredName(event.target.value)}
+    const descChangeHandller = (event)=>{setEnteredDesc(event.target.value)}
 
     const submitHandler = async(event)=>{
-        event.preventDefault()
-        
-        
-        sendRequest({
-          url:'/roles',
-          method:'POST',
-          body:JSON.stringify({
-              name:enteredName.toLowerCase(),
-              description:enteredDesc
-          })
-
-      }).then(data=>{
-        if(data){
-          setError(false)
-          history.replace('/roles-list')
-
-        }
-        else{
-          setError(true)
-        }
+      event.preventDefault()
+      setLoading(true)
+      createRole(enteredName.toLowerCase(),enteredDesc)
+      .then(data=>{
+        setError("")
+         history.replace('/roles-list')
+      }).catch(error=>{
+        setError(error.response.data.message)
       })
-   
-        
+      setLoading(false)
 
-      }
+    }
     return(
     <section>
       
@@ -62,8 +43,8 @@ const AddNewRole = ()=>{
           <label htmlFor='roleDesc'>Role Description</label>
           <textarea type='text' id='roleDesc' className={classes.roleDesc} required onChange={descChangeHandller} />
         </div>
-        {isLoading && <p>Loading...</p>}
-        {isError && !isLoading && <p>{error}</p>}
+        {loading && <p>Loading...</p>}
+        {error && !loading && <p>{error}</p>}
    
         <div className={classes.actions}>
            <button>Add</button>
