@@ -10,24 +10,24 @@ const RolesListPage = () => {
 
     const [roles,setRoles]= useState([])
     const [itemDeleted,setItemDeleted] = useState(false)
-    const [error,setError] = useState(false)
+    const [error,setError] = useState()
     const authCtx= useContext(AuthContext)
     const isLoggedIn =  authCtx.isLoggedIn
 
     let onDeleteItemHandler = ()=>{setItemDeleted(!itemDeleted)}
     
     useEffect(()=>{
-      getRole(authCtx.token)
+      getRole()
       .then(data=>{
         setRoles(data)})
-      .catch((e)=>setError(true))
-    },[authCtx.token,getRole,itemDeleted]) 
+      .catch((e)=>setError(e.response.data.message))
+    },[ itemDeleted]) 
     // itemDeleted so when delete reload page and get list without deleted item
 
 
   return(
       <div>
-        {!isLoggedIn && <Redirect to='/auth'/>}
+        {!isLoggedIn && <Redirect to='/login'/>}
         {error?<h1>{error}</h1>:<RolesList roles={roles} deleteItemHandler={onDeleteItemHandler}></RolesList>}
 
       </div>
