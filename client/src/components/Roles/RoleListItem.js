@@ -26,7 +26,7 @@ const RoleListItem = (props)=>{
             <Card>
                 <h2>Role : {props.name}</h2>
                 <h3>Description : {props.description}</h3>
-                {!props.block&&<Link to={`/update/${props.id}/${props.name}/${props.description}`} className={classes.link}>Update</Link>}
+                {!props.block&&<Link to={`/update/${props.id}/${props.name}/${props.description}`} className={classes.button}>Update</Link>}
                 <br></br>
                 {!props.block&&<button className={classes.button}onClick={onDeleteHandler}>Delete</button>}
                 {Error && <h3>{error}</h3>}

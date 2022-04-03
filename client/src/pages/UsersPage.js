@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router-dom"
 import {getAllUsers} from '../apis/users'
 import {getRole} from "../apis/roles"
+import { getLocalStorage } from "../HelperFunction/localStorage";
 
 import AuthContext from "../store/auth-context";
 
@@ -17,41 +18,38 @@ const UsersPage = () => {
   const authCtx = useContext(AuthContext)
   const isLoggedIn = authCtx.isLoggedIn
 
-  const token=localStorage.getItem('token')
+  const {storedToken}= getLocalStorage()
 
   useEffect(() => {
-    getRole(token).then(data=>{setRoles(data)})
-     
-      const getUsers= async()=>{
-        setIsLoading(true)
-        getAllUsers(token).then(data =>{
 
-          setIsLoading(false)
-          setUsers(data)
+    const getRoles =()=>{
+      getRole(storedToken).then(data=>{setRoles(data)})
+    }
+    const getUsers =()=>{
+      setIsLoading(true)
 
-        }).catch(error =>{
+      getAllUsers(storedToken).then(data =>{
+      setIsLoading(false)
+      setUsers(data)
+      getRoles()
 
-          setIsLoading(false)
-          setError(error.response.data.message)
-          
-        })
-        
-        
-      }
+    }).catch(error =>{
+        setIsLoading(false)
+        setError(error.response.data.message)         
+      })
+    }
 
-      getUsers()  
-    
-  }, [token]);
+    getUsers()
+            
+  }, [storedToken]);
 
   return(
     <div>
-    
-      
+
       {!isLoggedIn && <Redirect to='/login'/>}
       {isLoading && <p>Loading...</p>}
       {error?<h1>{error}</h1>:!isLoading &&<UserList users={users} roles={roles} />}
-    
-
+      
 
     </div>
      );

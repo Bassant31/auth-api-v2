@@ -3,8 +3,8 @@ import {getLocalStorage, clearLocalStorage} from '../HelperFunction/localStorage
 export const calculateRemainingTime =(expirationTime)=>{
 
     const currentTime = new Date().getTime()
-    const adjExpirationTime = new Date (expirationTime).getTime()
-    const remainingTime = adjExpirationTime - currentTime
+    const ExpirationTime = new Date (expirationTime).getTime()
+    const remainingTime = ExpirationTime - currentTime
 
     return remainingTime
 }

@@ -59,9 +59,7 @@ const submitHandler = async (event) =>{
         </div>
 
         <div className={classes.actions}>
-          {!isLoading && <button>Login</button>}
-          {isLoading && <p>Loading...</p>}
-
+        {isLoading ? <p>Loading...</p> :<button>Login</button>  }
           <button
             type="button"
             className={classes.toggle}

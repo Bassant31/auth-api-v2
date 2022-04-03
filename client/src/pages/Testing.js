@@ -2,6 +2,7 @@ import classes from './Styles.module.css'
 import {  useEffect, useState , useContext} from 'react'
 import AuthContext from '../store/auth-context'
 import { Redirect } from "react-router-dom"
+import { getLocalStorage } from '../HelperFunction/localStorage'
 import {getTestPlan} from '../apis/plans'
 
 const TestingPage= ()=>{
@@ -9,22 +10,20 @@ const TestingPage= ()=>{
     const [data, setData] = useState()
     const [error, setError] = useState();
 
-    const token = localStorage.getItem('token')
+    const {storedToken}= getLocalStorage()
 
 
     const authCtx = useContext(AuthContext)
     const isLoggedIn = authCtx.isLoggedIn
 
     useEffect(()=>{
-        const fetchData = async()=>{
-            getTestPlan(token).then(data =>{
-                setData(data)
-            }).catch(error =>{
-                setError(error.response.data.message)
-            })
-        }
-        fetchData()
-    },[token])
+        getTestPlan(storedToken).then(data =>{
+            setData(data)
+        }).catch(error =>{
+            setError(error.response.data.message)
+        })
+        
+    },[storedToken])
 
     
     return(

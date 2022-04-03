@@ -7,9 +7,8 @@ const MainNavigation = () => {
   const history = useHistory()
 
   const authCtx = useContext(AuthContext)
-  const isLoggedIn = authCtx.isLoggedIn
-  const admin = authCtx.admin
-
+  const {isLoggedIn, admin}= authCtx
+  
   function logoutHandler(){
     authCtx.logout()
    

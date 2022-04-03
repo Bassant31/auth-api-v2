@@ -73,9 +73,8 @@ const RegisterationForm = () => {
         </div>
 
         <div className={classes.actions}>
-          {!isLoading && <button>Create account</button>}
-          {isLoading && <p>Loading...</p>}
-
+          {isLoading ? <p>Loading...</p> :<button>Create account</button>  }
+          
           <button
             type="button"
             className={classes.toggle}

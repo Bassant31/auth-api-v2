@@ -2,18 +2,25 @@ import React, { useState, useEffect } from "react";
 
 import {calculateRemainingTime,retrieveStoredToken} from '../HelperFunction/expiry'
 import {setLocalStorage, clearLocalStorage} from '../HelperFunction/localStorage'
+import {getUserInformation} from '../apis/users'
 
 let logoutTimer;
 
 const AuthContext=React.createContext({
-    token:'',
     admin:false,
     isLoggedIn: false,
     login:()=>{},
     logout: ()=>{}
 })
 
-// function fetch user info to get the admin
+const getAdmin = async(token)=>{
+    if (token){
+        const data = await getUserInformation(token)
+        const admin = data.admin ?'admin':null
+        return admin     
+    }
+    return null
+}
 
 export const  AuthContextProvider = (props) =>{
   
@@ -23,10 +30,12 @@ export const  AuthContextProvider = (props) =>{
         intitialToken=tokenData.token
     }
 
-    const intitialRole = localStorage.getItem('admin')
+   const [token, setToken]= useState(intitialToken)
+   const [admin,setAdmin]=useState(null)
 
-    const [admin,setAdmin]=useState(intitialRole)
-    const [token, setToken]= useState(intitialToken)
+    getAdmin(token).then(adminRole =>{
+        setAdmin(adminRole)
+    })
 
     const userLoggedIn = !!token
     const isAdmin = !!admin
@@ -34,7 +43,6 @@ export const  AuthContextProvider = (props) =>{
     const logoutHandler = () =>{
       
        clearLocalStorage()
-       localStorage.removeItem('admin')
         setAdmin(false)
         setToken(null)
         if(logoutTimer){
@@ -44,15 +52,9 @@ export const  AuthContextProvider = (props) =>{
     }
 
     const loginHandler = (token,expirationTime,admin) =>{
-       if(admin)
-       {
-        localStorage.setItem('admin','admin')
-        setAdmin('admin')
-       }
-       else{
-           setAdmin(null)
-       }
-       setLocalStorage(token, expirationTime)
+
+        admin ? setAdmin('admin'):setAdmin(null)
+        setLocalStorage(token, expirationTime)
         setToken(token)
 
         const remainingTime=calculateRemainingTime(expirationTime)
@@ -63,13 +65,11 @@ export const  AuthContextProvider = (props) =>{
     useEffect(()=>{
         if (tokenData){
             logoutTimer= setTimeout(logoutHandler,tokenData.duration)
-
         }
     },[tokenData])
   
 
     const contextValue={
-        token:token,
         admin:isAdmin,
         isLoggedIn: userLoggedIn,
         login: loginHandler,
