@@ -9,10 +9,7 @@ import { getLocalStorage } from '../HelperFunction/localStorage'
 const DevelopmentPage= ()=>{
     const [data, setData] = useState()
     const [error, setError] = useState();
-
     const {storedToken}= getLocalStorage()
-
-
     const authCtx = useContext(AuthContext)
     const isLoggedIn = authCtx.isLoggedIn
 

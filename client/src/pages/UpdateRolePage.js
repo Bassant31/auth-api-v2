@@ -7,8 +7,8 @@ import { Redirect } from "react-router-dom"
 
 const UpdateRolePage  = ()=>{
     const authCtx = useContext(AuthContext)
-    const admin = authCtx.admin
-    const isLoggedIn = authCtx.isLoggedIn
+    const {admin,isLoggedIn} = authCtx
+   // const isLoggedIn = authCtx.isLoggedIn
 
     const {id,name,description} = useParams()
   
